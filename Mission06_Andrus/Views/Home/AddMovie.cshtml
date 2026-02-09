@@ -1,0 +1,67 @@
+﻿<!--Matthew Andrus IS413 Sec 004 Form page to add movies-->
+@model Mission06_Andrus.Models.AddMovie
+
+<h1>Add Movie</h1>
+<br />
+
+<!--Success Message-->
+@if (ViewBag.Message != null)
+{
+    <p style="color:green">@ViewBag.Message</p>
+}
+
+<!--Form-->
+<form method="post">
+
+    <label asp-for="Title">Title:</label>
+    <input asp-for="Title" class="form-control" required />
+    <span asp-validation-for="Title" class="text-danger"></span>
+    <br />
+
+    <label asp-for="Year">Year:</label>
+    <input asp-for="Year" type="number" class="form-control" required />
+    <span asp-validation-for="Year" class="text-danger"></span>
+    <br />
+
+    <label asp-for="Director">Director:</label>
+    <input asp-for="Director" class="form-control" required />
+    <span asp-validation-for="Director" class="text-danger"></span>
+    <br />
+
+    <label asp-for="Rating">Rating:</label>
+    <select asp-for="Rating" class="form-control" required>
+        <option value="">Select a rating</option>
+        <option value="G">G</option>
+        <option value="PG">PG</option>
+        <option value="PG-13">PG-13</option>
+        <option value="R">R</option>
+    </select>
+    <span asp-validation-for="Rating" class="text-danger"></span>
+    <br />
+
+    <label asp-for="Edited">Edited:</label>
+    <select asp-for="Edited" class="form-control">
+        <option value="">Select</option>
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+    </select>
+    <br />
+
+    <label asp-for="LentTo">Lent To:</label>
+    <input asp-for="LentTo" class="form-control" />
+    <br />
+
+    <label asp-for="Notes">Notes (max 25 characters):</label>
+    <input asp-for="Notes" class="form-control" maxlength="25" />
+    <span asp-validation-for="Notes" class="text-danger"></span>
+    <br />
+
+    <button type="submit" class="btn btn-primary">Add Movie</button>
+
+</form>
+
+
+<!--Scripts to show validation message-->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
