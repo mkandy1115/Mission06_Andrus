@@ -1,9 +1,4 @@
-﻿
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<!--Matthew Andrus IS413 Movie List Page-->
 @model List<Mission06_Andrus.Models.RealMovie>
 
 <div class="container mt-5">
@@ -12,7 +7,7 @@
 
     <div class="table-responsive shadow rounded">
         <table class="table table-bordered table-striped table-hover align-middle mb-0">
-
+            <!-- Table Headder-->
             <thead class="table-dark text-center">
                 <tr>
                     <th>MovieID</th>
@@ -28,7 +23,7 @@
                     <th class="text-center">Actions</th>
                 </tr>
             </thead>
-
+            <!--Table Body-->
             <tbody>
                 @foreach (var movie in Model)
                 {
