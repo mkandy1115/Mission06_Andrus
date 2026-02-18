@@ -7,10 +7,10 @@ namespace Mission06_Andrus.Controllers
     public class HomeController : Controller
     {
         // The database context for accessing the Movies table
-        private readonly AddMovieContext _context;
+        private readonly MovieContext _context;
 
         // Constructor: injects the database context into the controller
-        public HomeController(AddMovieContext context)
+        public HomeController(MovieContext context)
         {
             _context = context;
         }
@@ -31,24 +31,80 @@ namespace Mission06_Andrus.Controllers
         [HttpGet]
         public IActionResult AddMovie()
         {
-            return View();
+            ViewBag.Categories = _context.Categories
+                .OrderBy(x => x.CategoryName)
+                .ToList(); // Pass categories to the view for dropdown
+            return View(new RealMovie());
         }
 
         // Form submission for adding a movie
         [HttpPost]
-        public IActionResult AddMovie(AddMovie movie)
+        public IActionResult AddMovie(RealMovie movie)
+        {
+            ViewBag.Categories = _context.Categories
+                .OrderBy(x => x.CategoryName)
+                .ToList();
+
+            if (ModelState.IsValid)
+            {
+                _context.Movies.Add(movie);
+                _context.SaveChanges();
+                ViewBag.Message = "Movie added Successfully!";
+
+                return RedirectToAction("AddMovie"); // cleaner
+            }
+
+            return View(movie);  // This preserves validation errors
+        }
+
+
+        public IActionResult MovieList()
+        {
+            var movies = _context.Movies
+                .OrderBy(m => m.Year) // Order movies by Year
+                .ToList(); // Convert to list for the view
+            return View(movies);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            ViewBag.Categories = _context.Categories
+                .OrderBy(x => x.CategoryName)
+                .ToList();
+
+            var movie = _context.Movies
+                .Single(x => x.MovieId == id); // Find the movie by ID
+
+            return View("AddMovie", movie); // Pass the movie to the view for editing
+        }
+
+        [HttpPost]
+        public IActionResult Edit(RealMovie movie)
         {
             if (ModelState.IsValid)
             {
-                _context.Movies.Add(movie); // Add the new movie to the database context
+                _context.Update(movie); // Update the movie in the database context
                 _context.SaveChanges(); // Save changes to the database
-                ModelState.Clear(); // Clear the form after successful submission
-                ViewBag.Message = "Movie added successfully!";  // Send Success message to ViewBag
-                return View(new AddMovie());  // Redisplay the form after successful submission
+                return RedirectToAction("MovieList"); // Redirect to the movie list after successful edit
             }
+            return View("AddMovie", movie); // Redisplay the form with validation errors
+        }
 
-            ViewBag.Message = "";
-            return View(movie);  // redisplay the form with validation errors
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var movie = _context.Movies
+                .Single(x => x.MovieId == id); // Find the movie by ID
+            return View(movie); // Pass the movie to the view for confirmation
+        }
+
+        [HttpPost]
+        public IActionResult Delete(RealMovie movie)
+        {
+            _context.Movies.Remove(movie); // Remove the movie from the database context
+            _context.SaveChanges(); // Save changes to the database
+            return RedirectToAction("MovieList"); // Redirect to the movie list after successful deletion
         }
     }
 }

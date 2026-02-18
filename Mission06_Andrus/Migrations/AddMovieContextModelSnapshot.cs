@@ -8,7 +8,7 @@ using Mission06_Andrus.Models;
 
 namespace Mission06_Andrus.Migrations
 {
-    [DbContext(typeof(AddMovieContext))]
+    [DbContext(typeof(MovieContext))]
     partial class AddMovieContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

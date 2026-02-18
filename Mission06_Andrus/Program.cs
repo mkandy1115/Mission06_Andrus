@@ -1,5 +1,6 @@
-using Mission06_Andrus.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Mission06_Andrus.Models;
 using SQLitePCL;
 
 // Initialize the SQLite engine. This is required for EF Core SQLite to work properly.
@@ -12,8 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // Add database context
-builder.Services.AddDbContext<AddMovieContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("MovieConnection")));
+builder.Services.AddDbContext<MovieContext>(options =>
+    //options.UseSqlite(builder.Configuration.GetConnectionString("MovieConnection"))
+    options.UseSqlite("Data Source=JoelHiltonMovieCollection.sqlite"));
 
 // build the app
 var app = builder.Build();

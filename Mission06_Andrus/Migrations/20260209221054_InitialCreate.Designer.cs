@@ -9,7 +9,7 @@ using Mission06_Andrus.Models;
 
 namespace Mission06_Andrus.Migrations
 {
-    [DbContext(typeof(AddMovieContext))]
+    [DbContext(typeof(MovieContext))]
     [Migration("20260209221054_InitialCreate")]
     partial class InitialCreate
     {

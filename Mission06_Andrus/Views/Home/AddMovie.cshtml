@@ -1,35 +1,50 @@
-﻿<!--Matthew Andrus IS413 Sec 004 Form page to add movies-->
-@model Mission06_Andrus.Models.AddMovie
+﻿@model Mission06_Andrus.Models.RealMovie
 
-<h1>Add Movie</h1>
+<h1>Add/Edit Movie</h1>
 <br />
 
-<!--Success Message-->
+<!-- Success Message -->
 @if (ViewBag.Message != null)
 {
-    <p style="color:green">@ViewBag.Message</p>
+    <p class="text-success">@ViewBag.Message</p>
 }
 
-<!--Form-->
+<!-- Form -->
 <form method="post">
 
+    <input type="hidden" asp-for="MovieId" />
+
+    <!-- Title -->
     <label asp-for="Title">Title:</label>
     <input asp-for="Title" class="form-control" required />
     <span asp-validation-for="Title" class="text-danger"></span>
     <br />
 
+    <!-- Category -->
+    <label asp-for="CategoryId">Category:</label>
+    <select asp-for="CategoryId" class="form-control" required>
+        <option value="">Select a category</option>
+        @foreach (var category in ViewBag.Categories)
+        {
+            <option value="@category.CategoryId">@category.CategoryName</option>
+        }
+    </select>
+
+    <!-- Year -->
     <label asp-for="Year">Year:</label>
-    <input asp-for="Year" type="number" class="form-control" required />
+    <input asp-for="Year" type="number" class="form-control" min="1888" required />
     <span asp-validation-for="Year" class="text-danger"></span>
     <br />
 
+    <!-- Director -->
     <label asp-for="Director">Director:</label>
-    <input asp-for="Director" class="form-control" required />
+    <input asp-for="Director" class="form-control" />
     <span asp-validation-for="Director" class="text-danger"></span>
     <br />
 
+    <!-- Rating -->
     <label asp-for="Rating">Rating:</label>
-    <select asp-for="Rating" class="form-control" required>
+    <select asp-for="Rating" class="form-control">
         <option value="">Select a rating</option>
         <option value="G">G</option>
         <option value="PG">PG</option>
@@ -39,29 +54,44 @@
     <span asp-validation-for="Rating" class="text-danger"></span>
     <br />
 
+    <!-- Edited -->
     <label asp-for="Edited">Edited:</label>
-    <select asp-for="Edited" class="form-control">
+    <select asp-for="Edited" class="form-control" required>
         <option value="">Select</option>
-        <option value="true">Yes</option>
-        <option value="false">No</option>
+        <option value="1">Yes</option>
+        <option value="0">No</option>
     </select>
+    <span asp-validation-for="Edited" class="text-danger"></span>
     <br />
 
+    <!-- CopiedToPlex -->
+    <label asp-for="CopiedToPlex">Copied To Plex:</label>
+    <select asp-for="CopiedToPlex" class="form-control" required>
+        <option value="">Select</option>
+        <option value="1">Yes</option>
+        <option value="0">No</option>
+    </select>
+    <span asp-validation-for="CopiedToPlex" class="text-danger"></span>
+    <br />
+
+    <!-- Lent To -->
     <label asp-for="LentTo">Lent To:</label>
     <input asp-for="LentTo" class="form-control" />
     <br />
 
+    <!-- Notes -->
     <label asp-for="Notes">Notes (max 25 characters):</label>
     <input asp-for="Notes" class="form-control" maxlength="25" />
     <span asp-validation-for="Notes" class="text-danger"></span>
     <br />
 
-    <button type="submit" class="btn btn-primary">Add Movie</button>
+    <button type="submit" class="btn btn-primary">Submit Movie</button>
+
+    <div asp-validation-summary="All"></div>
 
 </form>
 
-
-<!--Scripts to show validation message-->
+<!-- Scripts for Validation -->
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

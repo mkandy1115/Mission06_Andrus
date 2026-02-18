@@ -1,0 +1,65 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<Mission06_Andrus.Models.RealMovie>
+
+<div class="container mt-5">
+
+    <h1 class="text-center mb-4 text-primary">Movie List</h1>
+
+    <div class="table-responsive shadow rounded">
+        <table class="table table-bordered table-striped table-hover align-middle mb-0">
+
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>MovieID</th>
+                    <th>CategoryID</th>
+                    <th>Title</th>
+                    <th>Year</th>
+                    <th>Director</th>
+                    <th>Rating</th>
+                    <th>Edited</th>
+                    <th>Lent To</th>
+                    <th>Copied To Plex</th>
+                    <th>Notes</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var movie in Model)
+                {
+                    <tr>
+                        <td>@movie.MovieId</td>
+                        <td>@movie.CategoryId</td>
+                        <td>@movie.Title</td>
+                        <td>@movie.Year</td>
+                        <td>@movie.Director</td>
+                        <td>@movie.Rating</td>
+                        <td>@movie.Edited</td>
+                        <td>@movie.LentTo</td>
+                        <td>@movie.CopiedToPlex</td>
+                        <td>@movie.Notes</td>
+                        <td class="text-center">
+                            <a class="btn btn-sm btn-primary me-2"
+                               asp-controller="Home"
+                               asp-action="Edit"
+                               asp-route-id="@movie.MovieId">
+                                Edit
+                            </a>
+
+                            <a class="btn btn-sm btn-danger"
+                               asp-controller="Home"
+                               asp-action="Delete"
+                               asp-route-id="@movie.MovieId">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
